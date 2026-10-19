@@ -104,16 +104,18 @@ async function getCover(malLink, name, retries = 0) {
   let img = "";
 
   try {
-    // Fetch from Jikan API using MAL ID
-    const res = await fetch(`https://api.jikan.moe/v4/anime/${id}`);
+        // Fetch from Jikan Edge API using MAL ID
+    const res = await fetch(`https://jikan.lucashdo.com/v1/anime/${id}`);
     if (!res.ok) throw new Error("Main fetch failed");
     const data = await res.json();
 
-    // Regular chaining — no "?" operators
-    if (data && data.data && data.data.images && data.data.images.jpg) {
-      img = data.data.images.jpg.large_image_url;
+    //updated for jikan edge
+    if (data && data.data && data.data.images && data.data.images.medium)
+    {
+      img = data.data.images.medium;
     }
 
+    
     // Cache result
     if (img) {
       coverCache[id] = img;
